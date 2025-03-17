@@ -1,0 +1,4 @@
+# Created a folder for this 
+# run 'npm create vite'
+# add relevant libraries
+# npm install @dnd-kit/core @dnd-kit/sortable
