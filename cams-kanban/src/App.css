@@ -5,5 +5,6 @@
 html,
 body,
 #root {
-  @apply bg-black text-white box-border
+  @apply bg-black text-white box-border;
 }
+/* base styling for html elements in app */
