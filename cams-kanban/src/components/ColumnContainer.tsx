@@ -1,5 +1,7 @@
+import { useSortable } from "@dnd-kit/sortable";
 import DeleteIcon from "../icons/DeleteIcon";
 import { Column, Id } from "../types";
+import { CSS } from "@dnd-kit/utilities";
 
 //define interface Props to hold column data
 interface Props {
@@ -8,8 +10,28 @@ interface Props {
 }
 function ColumnContainer(props: Props) {
   const { column, deleteColumn } = props;
+
+  // we added this block to help drag with the help of dnd
+  const { setNodeRef, attributes, listeners, transform, transition } =
+    useSortable({
+      id: column.id,
+      data: {
+        type: "Column",
+        column,
+      },
+    });
+
+  // we added this style block as well
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+
   return (
+    // we set our Node ref and style here
     <div
+      ref={setNodeRef}
+      style={style}
       className="
   bg-columnBackgroundColor 
   w-[350px]
@@ -22,6 +44,9 @@ function ColumnContainer(props: Props) {
     >
       {/* Column title */}
       <div
+        // we spread attributes and listeners here
+        {...attributes}
+        {...listeners}
         className="
         bg-mainBackgroundColor
         h-[60px]

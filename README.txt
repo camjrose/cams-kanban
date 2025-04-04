@@ -47,3 +47,13 @@
 # now we create a type for our column so create a types.ts file in src
 # our column will consist of an ID and a title, the ID will either be a string or a number
 # we now define our state as of type column and import the required types 
+
+# now that we have some of this crap setup we can implement 
+# drag and drop functionality 
+# we need to utilize the dnd-kit 
+# start by importing the appropriate context on the kanbanboard tsx file 
+# -> import { DndContext } from "@dnd-kit/core"; 
+
+# we should also consider the fact that we want to be able to sort 
+# so lets wrap our column container array in a sortable context 
+
