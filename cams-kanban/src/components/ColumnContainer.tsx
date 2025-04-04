@@ -40,9 +40,9 @@ function ColumnContainer(props: Props) {
         style={style}
         className="
     bg-columnBackgroundColor
-    opacity-60
+    opacity-40
     border-2
-    border-rose-400
+    border-rose-600
     w-[350px]
     h-[500px]
     max-h-[500px]

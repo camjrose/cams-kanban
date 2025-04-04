@@ -2,8 +2,13 @@ import { useMemo, useState } from "react";
 import PlusIcon from "../icons/PlusIcon";
 import { Column, Id } from "../types";
 import ColumnContainer from "./ColumnContainer";
-import { DndContext, DragOverlay, DragStartEvent } from "@dnd-kit/core";
-import { SortableContext } from "@dnd-kit/sortable";
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+} from "@dnd-kit/core";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 
 function KanbanBoard() {
@@ -27,7 +32,7 @@ function KanbanBoard() {
         p-[40px]
     "
     >
-      <DndContext onDragStart={onDragStart}>
+      <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
         <div className="m-auto flex gap-4">
           {/* div that will contain column data */}
           <div
@@ -100,6 +105,38 @@ function KanbanBoard() {
 
   function onDragStart(event: DragStartEvent) {
     console.log("DRAG START", event);
+    if (event.active.data.current?.type === "Column") {
+      setActiveColumn(event.active.data.current.column);
+      return;
+    }
+  }
+
+  function onDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    console.log("DRAG END", event);
+    // if not over event, then we havent dragged the col over another valid column
+    if (!over) return;
+
+    const activeColumnID = active.id;
+    const overColumnID = over.id;
+
+    // verify that we have actually moved the column
+    if (activeColumnID === overColumnID) return;
+
+    // then we want to set the columns array to what is returned by the array nmove funciton
+    // we use helpers within to grab the index values
+    setColumns((columns) => {
+      const activeColumnIndex = columns.findIndex(
+        (col) => col.id === activeColumnID
+      );
+
+      const overColumnIndex = columns.findIndex(
+        (col) => col.id === overColumnID
+      );
+
+      return arrayMove(columns, activeColumnIndex, overColumnIndex);
+    });
+
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
       return;
