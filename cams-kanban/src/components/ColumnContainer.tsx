@@ -12,20 +12,47 @@ function ColumnContainer(props: Props) {
   const { column, deleteColumn } = props;
 
   // we added this block to help drag with the help of dnd
-  const { setNodeRef, attributes, listeners, transform, transition } =
-    useSortable({
-      id: column.id,
-      data: {
-        type: "Column",
-        column,
-      },
-    });
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: column.id,
+    data: {
+      type: "Column",
+      column,
+    },
+  });
 
   // we added this style block as well
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
   };
+
+  if (isDragging) {
+    return (
+      <div
+        ref={setNodeRef}
+        style={style}
+        className="
+    bg-columnBackgroundColor
+    opacity-60
+    border-2
+    border-rose-400
+    w-[350px]
+    h-[500px]
+    max-h-[500px]
+    rounded-md
+    flex
+    flex-col
+    "
+      ></div>
+    );
+  }
 
   return (
     // we set our Node ref and style here
